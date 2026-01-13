@@ -1,17 +1,15 @@
 VAGRANT_BOX = "ubuntu/jammy64"
-VAGRANT_BOX_VERSION = "20241002.0.0"
 VAGRANT_PROVIDER = "virtualbox"
 
-VM_MEMORY = 1024
-VM_CPUS  = 1
+VM_MEMORY = 2048
+VM_CPUS  = 2
 
 SERVER_IP = "192.168.56.110"
 WORKER_IP = "192.168.56.111"
 
 Vagrant.configure("2") do |config|
   config.vm.box = VAGRANT_BOX
-  config.vm.box_version = VAGRANT_BOX_VERSION
-  
+
   config.vm.provider VAGRANT_PROVIDER do |vb|
     vb.memory = VM_MEMORY
     vb.cpus = VM_CPUS
@@ -20,10 +18,22 @@ Vagrant.configure("2") do |config|
   config.vm.define "anloiseaS" do |s|
     s.vm.hostname = "anloiseaS"
     s.vm.network "private_network", ip: SERVER_IP
+
+    s.vm.provider VAGRANT_PROVIDER do |vb|
+      vb.customize ["modifyvm", :id, "--name", "anloiseaS"]
+    end
+
+    s.vm.provision "shell", path: "scripts/install_kubectl.sh"
   end
 
   config.vm.define "anloiseaSW" do |ws|
     ws.vm.hostname = "anloiseaSW"
     ws.vm.network "private_network", ip: WORKER_IP
+    
+    ws.vm.provider VAGRANT_PROVIDER do |vb|
+      vb.customize ["modifyvm", :id, "--name", "anloiseaSW"]
+    end
+
+    ws.vm.provision "shell", path: "scripts/install_kubectl.sh"
   end
 end
