@@ -1,0 +1,37 @@
+# Deployment: Defines HOW to run your application
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app2-deployment
+  labels:
+    app: app2
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: app2  # This deployment manages pods with label "app: app2"
+  template:
+    metadata:
+      labels:
+        app: app2  # Label applied to each pod
+    spec:
+      containers:
+      - name: whoami
+        image: traefik/whoami  # Shows HTTP request details
+        ports:
+        - containerPort: 80
+
+---
+# Service: Creates a stable network endpoint for the deployment
+apiVersion: v1
+kind: Service
+metadata:
+  name: app2-service
+spec:
+  selector:
+    app: app2  # Connect to pods with label "app: app2"
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: ClusterIP

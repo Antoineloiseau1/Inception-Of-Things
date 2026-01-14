@@ -1,0 +1,37 @@
+# Deployment: Defines HOW to run your application
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app3-deployment
+  labels:
+    app: app3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app3  # This deployment manages pods with label "app: app3"
+  template:
+    metadata:
+      labels:
+        app: app3  # Label applied to each pod
+    spec:
+      containers:
+      - name: apache
+        image: httpd:latest  # Apache HTTP server
+        ports:
+        - containerPort: 80
+
+---
+# Service: Creates a stable network endpoint for the deployment
+apiVersion: v1
+kind: Service
+metadata:
+  name: app3-service
+spec:
+  selector:
+    app: app3  # Connect to pods with label "app: app3"
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: ClusterIP
