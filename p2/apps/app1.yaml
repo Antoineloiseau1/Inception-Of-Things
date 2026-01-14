@@ -2,36 +2,36 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app1-deployment  # Name of this deployment
+  name: app1-deployment
   labels:
-    app: app1  # Label to identify resources belonging to app1
+    app: app1
 spec:
-  replicas: 1  # Run 1 copy of this container
+  replicas: 1
   selector:
     matchLabels:
-      app: app1  # This deployment manages pods with label "app: app1"
-  template:  # Template for the pods that will be created
+      app: app1
+  template:
     metadata:
       labels:
-        app: app1  # Label applied to each pod
+        app: app1
     spec:
       containers:
-      - name: nginx-hello  # Container name (can be anything)
-        image: nginxdemos/hello  # Docker image to use
+      - name: nginx-hello
+        image: nginxdemos/hello:latest
         ports:
-        - containerPort: 80  # Port the container listens on
+        - containerPort: 80
 
 ---
 # Service: Creates a stable network endpoint for the deployment
 apiVersion: v1
 kind: Service
 metadata:
-  name: app1-service  # This name will be used in the Ingress
+  name: app1-service
 spec:
   selector:
-    app: app1  # Connect to pods with label "app: app1"
+    app: app1
   ports:
   - protocol: TCP
-    port: 80  # Service port (what other pods use to connect)
-    targetPort: 80  # Container port (where traffic is forwarded)
-  type: ClusterIP  # Internal only (not exposed outside cluster)
+    port: 80
+    targetPort: 80
+  type: ClusterIP

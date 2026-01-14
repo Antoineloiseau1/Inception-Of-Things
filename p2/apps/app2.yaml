@@ -6,18 +6,18 @@ metadata:
   labels:
     app: app2
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
-      app: app2  # This deployment manages pods with label "app: app2"
+      app: app2
   template:
     metadata:
       labels:
-        app: app2  # Label applied to each pod
+        app: app2
     spec:
       containers:
       - name: whoami
-        image: traefik/whoami  # Shows HTTP request details
+        image: traefik/whoami:latest
         ports:
         - containerPort: 80
 
@@ -29,7 +29,7 @@ metadata:
   name: app2-service
 spec:
   selector:
-    app: app2  # Connect to pods with label "app: app2"
+    app: app2
   ports:
   - protocol: TCP
     port: 80
