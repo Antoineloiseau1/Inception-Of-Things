@@ -11,5 +11,8 @@
 
 `echo "deb [arch=amd64 signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] https://download.virtualbox.org/virtualbox/debian bookworm contrib" | sudo tee /etc/apt/sources.list.d/virtualbox.list`
 
-`sudo apt update`
-`sudo apt install virtualbox-7.0 `
+`sudo apt update && sudo apt install virtualbox-7.0`
+
+# launch vagrant
+In p1 directory:
+`vagrant up`
