@@ -1,0 +1,52 @@
+# Ingress: Routes external traffic to internal services based on HOST header
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: apps-ingress
+  annotations:
+    # Tell Traefik this is the default backend (catches all unmatched hosts)
+    traefik.ingress.kubernetes.io/router.priority: "1"
+spec:
+  rules:
+  # Rule 1: When HOST header is "app1.com"
+  - host: app1.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: app1-service  # Route to app1-service
+            port:
+              number: 80
+  
+  # Rule 2: When HOST header is "app2.com"
+  - host: app2.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: app2-service  # Route to app2-service
+            port:
+              number: 80
+  
+  # Rule 3: When HOST header is "app3.com"
+  - host: app3.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: app3-service  # Route to app3-service
+            port:
+              number: 80
+  
+  # Default backend: catches ALL other hosts (including direct IP access)
+  defaultBackend:
+    service:
+      name: app3-service  # app3 is the default fallback
+      port:
+        number: 80
