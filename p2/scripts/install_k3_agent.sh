@@ -1,13 +1,6 @@
-#!/bin/bash
-SERVER_IP="192.168.56.110"
-TOKEN_FILE="/vagrant/node-token"
+#! /bin/bash
 
-# Wait for the server to write the file
-while [ ! -f "$TOKEN_FILE" ]; do
-  echo "Waiting for $TOKEN_FILE..."
-  sleep 5
-done
+curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644 --node-ip 192.168.56.110
 
-K3S_TOKEN=$(cat "$TOKEN_FILE")
-
-curl -sfL https://get.k3s.io | K3S_URL=https://"$SERVER_IP":6443 K3S_TOKEN="$K3S_TOKEN" sh -s - agent --node-ip="192.168.56.111"
+sudo cp /var/lib/rancher/k3s/server/node-token /vagrant/node-token
+sudo chmod 644 /vagrant/node-token
