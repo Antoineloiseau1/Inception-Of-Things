@@ -19,7 +19,6 @@ If needed: `vagrant destroy -f && rm -rf .vagrant`
 ## To test configuration
 `vagrant status`
 `vagrant global-status` to see all Vagrant machines on the system
-`get nodes -o wide`
-`ifconfig eth1`
+`kubectl get nodes -o wide` after SSH connection to anloiseaS
 `ip a`
-`ip a show eth1`
+`ip a show enp0s8`
