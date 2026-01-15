@@ -1,4 +1,27 @@
-# Deployment: Defines HOW to run your application
+# ConfigMap: Custom HTML for App1
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app1-html
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Application 1</title>
+        <style>
+            h1 { color: #1976d2; }
+        </style>
+    </head>
+    <body>
+        <h1>Hello from Application 1</h1>
+        <p>You are accessing <strong>app1.com</strong></p>
+        <p>This is served by Nginx</p>
+    </body>
+    </html>
+
+---
+# Deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,13 +39,20 @@ spec:
         app: app1
     spec:
       containers:
-      - name: nginx-hello
-        image: nginxdemos/hello:latest
+      - name: nginx
+        image: nginx:alpine
         ports:
         - containerPort: 80
+        volumeMounts:
+        - name: html
+          mountPath: /usr/share/nginx/html
+      volumes:
+      - name: html
+        configMap:
+          name: app1-html
 
 ---
-# Service: Creates a stable network endpoint for the deployment
+# Service
 apiVersion: v1
 kind: Service
 metadata:
