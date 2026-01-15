@@ -81,3 +81,5 @@ NB: If the Pod is deleted and a new one is created by the Deployment, it inherit
 Checking K3s resources are running:
 `kubectl get nodes` (on server VM)
 `kubectl get pods -A` (on server VM)
+`kubectl get all` (on server VM)
+`curl -H "host:app2.com" 192.168.56.110`
