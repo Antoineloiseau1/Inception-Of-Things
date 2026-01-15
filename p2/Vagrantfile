@@ -2,7 +2,6 @@ VAGRANT_BOX = "ubuntu/jammy64"
 VAGRANT_PROVIDER = "virtualbox"
 
 SERVER_IP = "192.168.56.110"
-WORKER_IP = "192.168.56.111"
 
 Vagrant.configure("2") do |config|
   config.vm.box = VAGRANT_BOX
@@ -14,7 +13,6 @@ Vagrant.configure("2") do |config|
     s.vm.provider VAGRANT_PROVIDER do |vb|
       vb.memory = 2048
       vb.cpus = 2
-      vb.customize ["modifyvm", :id, "--name", "anloiseaS"]
     end
 
     s.vm.provision "shell", path: "scripts/install_k3s_server.sh"
