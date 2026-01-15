@@ -1,47 +1,33 @@
-# Ingress: Routes external traffic to internal services based on HOST url
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: apps-ingress
+  name: main-ingress
 spec:
-  defaultBackend:
-    service:
-      name: app3-service  # Default to app3
-      port:
-        number: 80
-  rules: 
-    # Rule 1: When HOST header is "app1.com"
-    - host: app1.com
-      http:
-        paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: app1-service  # Route to app1-service
-              port:
-                number: 80
-    
-    # Rule 2: When HOST header is "app2.com"
-    - host: app2.com
-      http:
-        paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: app2-service  # Route to app2-service
-              port:
-                number: 80
-    
-    # Rule 3: When HOST header is "app3.com"
-    - host: app3.com
-      http:
-        paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: app3-service  # Route to app3-service
-              port:
-                number: 80
+  rules:
+  - host: app1.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: app1-service
+            port: { number: 80 }
+  - host: app2.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: app2-service
+            port: { number: 80 }
+  # Catch-all rule (Default for the IP 192.168.56.110)
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: app3-service
+            port: { number: 80 }
