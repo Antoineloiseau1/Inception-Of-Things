@@ -45,15 +45,13 @@ Essentially, our Git repo becomes the “single source of truth” for the clust
 ## To run:
 
 #### 1. Installing prerequisites:
-- `bash scripts/blablabla.sh`
+- `bash scripts/install.sh`
 
-#### 2. Creating a K3d cluster, installing Argo CD and creating two namespaces: argocd and dev:
+#### 2. Creating a K3d cluster, installing Argo CD and creating two namespaces: argocd and dev, applying app.yaml (connect ArgoCD to repo):
 - `bash scripts/setup-cluster.sh`
 - To check namespaces creation: `kubectl get ns`
 
-#### 3. Pushing our app YAMLs to our repo GITHUB:
-- `bash scripts/add-hosts.sh`
-- `kubectl apply -f https://raw.githubusercontent.com/madem23/IoT-mdemma-ncardozo-anloisea/main/app.yaml`
+#### 3. Testing:
 
 - Testing: `kubectl get pods -n dev`
 `kubectl get ns`
