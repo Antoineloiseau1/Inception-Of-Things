@@ -16,3 +16,6 @@
 # launch vagrant
 In p1 directory:
 `vagrant up`
+
+## Glossaire :
+- Kubernetes manifest: A manifest is a YAML (or JSON) file that describes the desired state of a Kubernetes resource.
