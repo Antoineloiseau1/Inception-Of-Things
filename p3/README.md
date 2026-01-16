@@ -67,7 +67,7 @@ To check service, IP and port : `kubectl get svc -n dev`
 
 To access argoCD's GUI:
 - To expose argo's port: `kubectl port-forward svc/argocd-server -n argocd 8080:443`
-- To generate first password for login with 'admin': `kubectl -n arg    ocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d`
+- To generate first password for login with 'admin': `kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d`
 
 To access app in browser:
 - http://localhost:8888
