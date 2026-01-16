@@ -12,31 +12,35 @@ Purpose:
 Essentially, our Git repo becomes the “single source of truth” for the cluster state.
 
 ## Key concepts:
+
 - **K3d** runs K3s inside Docker containers, so it required Docker on host. It can run multiple clusters per host, vs. 1/installation for K3s.
+
 - **Argo CD** is a continuous deployment tool for Kubernetes: it monitors a Git repository containing Kubernetes manifests or Helm charts, and automatically syncs the cluster state with the repository (GitOps approach).
+
 - **namespace**: In Kubernetes, namespaces provide a mechanism for isolating groups of resources within a single cluster. Names of resources need to be unique within a namespace, but not across namespaces. Namespaces help isolate resources and avoid conflicts. Here, we set up 2 namespaces:
   - **argocd:** holds Argo CD system resources
   - **dev:** holds our development application (playground app).
 
 
 ## Resources :
-### On remote GITHUB repository :
-#### 1. app.yaml:
+### Local :
+
+#### app.yaml:
 - Purpose: Connects our Git repository to Argo CD.
 - Action: Argo CD monitors this repo and automatically applies all Kubernetes manifests in it.
-#### 2. deployment.yaml:
+
+### On remote Git repository:
+#### 1. deployment.yaml:
 - Purpose: Defines how the application runs.
 - Action: 
   - Creates Pods via a Deployment, sets container image that will be deployed (here wil42/playground:v1 or v2), replicas, and ports.
   - Set the Pod container port to 8888
-#### 3. service.yaml:
+
+#### 2. service.yaml:
 - Purpose: Exposes Pods internally.
-- Action: Allows Ingress or other Pods to reach the application, maps an external port to the Pod’s containerPort: its port 80 -> Pod container port 8888.
-#### 4. ingress.yaml:
-- Purpose: Routes external traffic into the cluster.
-- Action:
-  - Set hostname for external traffic
-  - Set port for redirection to 80 (which is the Service port, nt the Pod container port)
+- Action: Allows other Pods (or Ingress) to reach the application, maps an external port to the Pod’s containerPort: its port 8888 -> to Pod container port 8888.
+
+#### No ingress.yaml required here (only one app)
 
 ## To run:
 
@@ -68,7 +72,7 @@ To access argoCD's GUI:
 - To generate first password for login with 'admin': `kubectl -n arg    ocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d`
 
 To access app in browser:
-- To get Ip address: CAN IT BE FIXED SOMEWHERE??? `kubectl get ingress -n dev`
+- http://localhost:8888
 
 
 #### 4. Managing app versions:
@@ -76,7 +80,4 @@ To access app in browser:
 - Change image name in Repo's deployment.yaml, commit and push.
 - Check in ArgoCD web GUI if updated.
 
-# TO DO:
-
-- add-host.sh is not dynamic, as external IP address of Ingress is generated each time the cluster (re)starts, we should replace the IP address for host playground.local. FIND SOLUTION: maybe delete the script completely and connect through IP 
 
