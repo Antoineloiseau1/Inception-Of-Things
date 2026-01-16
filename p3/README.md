@@ -67,13 +67,16 @@ To access argoCD's GUI:
 - To expose argo's port: `kubectl port-forward svc/argocd-server -n argocd 8080:443`
 - To generate first password for login with 'admin': `kubectl -n arg    ocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d`
 
+To access app in browser:
+- To get Ip address: CAN IT BE FIXED SOMEWHERE??? `kubectl get ingress -n dev`
+
+
 #### 4. Managing app versions:
 
-Your app (Wil’s playground app) has two Docker images:
+- Change image name in Repo's deployment.yaml, commit and push.
+- Check in ArgoCD web GUI if updated.
 
-wil42/playground:v1 → version 1
+# TO DO:
 
-wil42/playground:v2 → version 2
-
-Your Argo CD Application in Kubernetes is configured to pull a Docker image based on the version tag you set in your YAML (in your GitHub repo).
+- add-host.sh is not dynamic, as external IP address of Ingress is generated each time the cluster (re)starts, we should replace the IP address for host playground.local. FIND SOLUTION: maybe delete the script completely and connect through IP 
 

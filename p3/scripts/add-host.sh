@@ -1,6 +1,6 @@
 #!/bin/bash
 
-IP="127.0.0.1"
+IP="172.18.0.2"
 HOSTNAME="playground.local"
 
 LINE="$IP $HOSTNAME"
