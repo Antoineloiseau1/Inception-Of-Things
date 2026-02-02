@@ -1,9 +1,11 @@
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 echo "🔹 Setting Up k3d cluster"
 if k3d cluster list | grep -q "iot"; then
     echo "K3d cluster "iot" already exists"
 else
     echo "Creating k3d cluster..."
-    k3d cluster create ${CLUSTER_NAME} --wait -p "8888:8888@loadbalancer"
+    k3d cluster create "iot" --wait -p "8888:8888@loadbalancer" -p "443:443@loadbalancer"
 fi
 
 echo "Creating namespaces..."
@@ -24,6 +26,12 @@ fi
 
 echo "🔹 Waiting for Argo CD to be ready"
 kubectl rollout status deployment argocd-server -n argocd
-kubectl apply -f ./confs/app.yaml
+kubectl apply -f ${SCRIPT_DIR}/../confs
+
+kubectl -n argocd patch configmap argocd-cm --type merge -p '{"data":{"url":"https://argocd.localhost"}}'
+echo "Argo CD initial admin password"
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+echo
+
 
 echo "Setup complete!"
