@@ -1,0 +1,50 @@
+* Install all tools
+
+bash scripts/install_tools.sh
+
+* Create & launch the cluster
+
+bash scripts/cluster_bootstrap_ingress.sh
+
+* On browser:
+    https://argocd.localhost
+    user: admin
+    password: the one printed by the scripts
+
+* From the app.yaml path:
+    kubectl apply -f app.yaml
+    kubectl -n argocd get applications
+
+NOTE: you should now see the app added on the argocd app
+
+* Check pods started in namespace dev:
+    kubectl -n dev get pods
+    kubectl -n dev get svc
+
+* From the terminal
+
+curl -s localhost:8888
+
+* On browser (new tab):
+
+http://localhost:8888
+
+-------------------------------------------------------------
+
+WHEN THE DEMONSTRATION IS OVER
+
+* Delete all kubernetes ressources defined in app.yaml file form cluster
+
+kubectl delete -f app.yaml
+
+* Stop Argo CD
+
+kubectl delete namespace argocd
+
+* Delete cluster (full stop)
+
+k3d cluster delete p3IngressCluster
+
+* Stop docker (if needed)
+
+sudo systemctl stop docker
