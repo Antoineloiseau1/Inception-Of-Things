@@ -36,7 +36,7 @@ helm repo update
 
   helm upgrade --install gitlab gitlab/gitlab \
     --namespace gitlab \
-    -f ${SCRIPT_DIR}/../confs/gitlab.yaml \
+    -f ${SCRIPT_DIR}/confs/gitlab.yaml \
     --set global.hosts.domain=example.com \
     --set global.hosts.externalIP=10.10.10.10 \
     --set certmanager-issuer.email=me@example.com \
@@ -54,7 +54,7 @@ fi
 
 echo -e "${YELLOW}\nWaiting for Argo CD to be ready${RESET}"
 kubectl rollout status deployment argocd-server -n argocd
-kubectl apply -f ${SCRIPT_DIR}/../confs
+kubectl apply -f ${SCRIPT_DIR}/confs
 
 echo -e "${GREEN}\nSetup complete!\n${RESET}"
 
