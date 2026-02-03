@@ -1,0 +1,64 @@
+# Lightweight GitLab for tiny VM
+global:
+  ingress:
+    configureCertmanager: false
+    class: "nginx"
+    enabled: false
+
+  hosts:
+    domain: 192.168.99.100.nip.io
+    externalIP: 192.168.99.100
+  rails:
+    bootsnap:
+      enabled: false
+  shell:
+    port: 32022
+  appConfig:
+    object_store:
+      enabled: false
+
+installCertmanager: false
+nginx-ingress:
+  enabled: false
+prometheus:
+  install: false
+gitlab-runner:
+  install: false
+
+gitlab:
+  webservice:
+    minReplicas: 1
+    maxReplicas: 1
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+  sidekiq:
+    enabled: false
+  gitlab-shell:
+    minReplicas: 1
+    maxReplicas: 1
+    service:
+      type: NodePort
+      nodePort: 32022
+    resources:
+      requests:
+        cpu: 25m
+        memory: 64Mi
+
+registry:
+  enabled: false
+
+postgresql:
+  install: true
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+
+redis:
+  install: true
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
