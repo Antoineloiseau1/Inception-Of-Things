@@ -11,7 +11,7 @@
 
 global:
   ingress:
-  enabled: false
+    enabled: false
     configureCertmanager: false
     class: "nginx"
   hosts:
