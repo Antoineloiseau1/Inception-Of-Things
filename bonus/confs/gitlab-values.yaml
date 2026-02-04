@@ -1,8 +1,8 @@
 # This example intended as baseline to use k3d for the deployment of GitLab
 # - Minimized CPU/Memory load, can fit into 3 CPU, 6 GB of RAM (barely)
-# - Services that are not compatible with how Minikube runs are disabled
+# - Services that are not compatible with how k3d runs are disabled
 # - Some services entirely removed, or scaled down to 1 replica.
-# - Configured to use gitlab.local for the domain
+# - Configured to use gitlab.localhost for the domain
 # 
 # From official Gitlab doc: 
 #   https://docs.gitlab.com/charts/development/minikube/#deploying-gitlab-with-minimal-settings
