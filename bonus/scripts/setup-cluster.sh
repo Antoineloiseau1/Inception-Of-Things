@@ -34,13 +34,17 @@ helm repo update
  # --namespace gitlab \
   #-f ${SCRIPT_DIR}/../confs/gitlab.yaml
 
-  helm upgrade --install gitlab gitlab/gitlab \
+helm upgrade --install gitlab gitlab/gitlab \
     --namespace gitlab \
-    -f ${SCRIPT_DIR}/confs/gitlab.yaml \
-    --set global.hosts.domain=example.com \
-    --set global.hosts.externalIP=10.10.10.10 \
-    --set certmanager-issuer.email=me@example.com \
-    --set global.hosts.https=false
+    -f "${SCRIPT_DIR}/../confs/gitlab_values.yaml" \
+    #--set global.hosts.domain=example.com \
+    #--set global.hosts.externalIP=10.10.10.10 \
+    #--set certmanager-issuer.email=me@example.com \
+    #--set global.hosts.https=false
+
+echo -e "${YELLOW}\nWaiting for gitlab to be ready${RESET}"
+kubectl rollout status deployment/gitlab-webservice-default -n gitlab --timeout=600s
+
 kubectl get pods -n gitlab
 
 

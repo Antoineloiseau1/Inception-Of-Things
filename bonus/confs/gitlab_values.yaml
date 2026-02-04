@@ -6,8 +6,9 @@ global:
     enabled: false
 
   hosts:
-    domain: 192.168.99.100.nip.io
+    domain: gitlab.192.168.99.100.nip.io
     externalIP: 192.168.99.100
+    https: false
   rails:
     bootsnap:
       enabled: false
@@ -16,6 +17,9 @@ global:
   appConfig:
     object_store:
       enabled: false
+
+#certmanager-issuer:
+  #email: me@example.com
 
 installCertmanager: false
 nginx-ingress:
