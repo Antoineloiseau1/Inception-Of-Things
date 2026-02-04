@@ -1,21 +1,28 @@
-# install vagrant
+# 42 Project: Inception-of-Things
 
-`wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg`
+## Objective
+This project aims to deepen your knowledge by making you use K3d and K3s with
+Vagrant. You will learn how to set up a personal virtual machine with Vagrant and the
+distribution of your choice. Then, you will learn how to use K3s and its Ingress.
+Last but not least, you will discover K3d that will simplify your life.
+These steps will get you started with Kubernetes.
 
-`echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(grep -oP '(?<=UBUNTU_CODENAME=).*' /etc/os-release || lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list`
 
-`sudo apt update && sudo apt install vagrant`
+NB: The whole project has to be done in a virtual machine.
 
-# install virtualbox
-`wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg --dearmor`
+This project will consist of setting up several environments under specific rules.
+It is divided into three parts you have to do in the following order:
+- Part 1: K3s and Vagrant
+- Part 2: K3s and three simple applications
+- Part 3: K3d and Argo CD
 
-`echo "deb [arch=amd64 signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] https://download.virtualbox.org/virtualbox/debian bookworm contrib" | sudo tee /etc/apt/sources.list.d/virtualbox.list`
-
-`sudo apt update && sudo apt install virtualbox-7.0`
-
-# launch vagrant
-In p1 directory:
-`vagrant up`
+## Concepts:
+### K3s:
+- **Lightweight Kubernetes distribution.**
+- It packages the core Kubernetes components into a single binary and removes non-essential features such as legacy cloud providers and in-tree storage drivers. This makes it particularly well suited for local development, edge computing, CI environments, and small virtual machines where a full Kubernetes installation would be too heavy. Despite being lightweight, K3s exposes the same Kubernetes API and behavior as standard Kubernetes, which means applications and manifests created for K3s can be deployed unchanged to larger production clusters.
+- Vagrant
+- K3d
+- CI and ArgoCD
 
 ## Glossaire :
 - Kubernetes manifest: A manifest is a YAML (or JSON) file that describes the desired state of a Kubernetes resource.

@@ -20,6 +20,7 @@ Essentially, our Git repo becomes the “single source of truth” for the clust
 - **namespace**: In Kubernetes, namespaces provide a mechanism for isolating groups of resources within a single cluster. Names of resources need to be unique within a namespace, but not across namespaces. Namespaces help isolate resources and avoid conflicts. Here, we set up 2 namespaces:
   - **argocd:** holds Argo CD system resources
   - **dev:** holds our development application (playground app).
+- **pod**: TODO
 
 
 ## Resources :
