@@ -17,10 +17,10 @@ Essentially, our Git repo becomes the “single source of truth” for the clust
 
 - **Argo CD** is a continuous deployment tool for Kubernetes: it monitors a Git repository containing Kubernetes manifests or Helm charts, and automatically syncs the cluster state with the repository (GitOps approach).
 
-- **namespace**: In Kubernetes, namespaces provide a mechanism for isolating groups of resources within a single cluster. Names of resources need to be unique within a namespace, but not across namespaces. Namespaces help isolate resources and avoid conflicts. Here, we set up 2 namespaces:
+- **namespace**: logical boundary inside the cluster. In Kubernetes, namespaces provide a mechanism for isolating groups of resources within a single cluster. Names of resources need to be unique within a namespace, but not across namespaces. Namespaces help isolate resources and avoid conflicts. Here, we set up 2 namespaces:
   - **argocd:** holds Argo CD system resources
   - **dev:** holds our development application (playground app).
-- **pod**: TODO
+- **pod**: smallest runtime unit in Kubernetes. It’s where the application actually runs. A pod contains one or more containers that share the same IP address, storage, and lifecycle.
 
 
 ## Resources :
@@ -65,11 +65,6 @@ kubectl describe pod <POD-NAME> -n dev
 ```
 
 To check service, IP and port : `kubectl get svc -n dev`
-
-To access argoCD's GUI:
-- To expose argo's port: `kubectl port-forward svc/argocd-server -n argocd 8080:443`
-- To generate first password for login with 'admin': `kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d`
-- Connect via: https://localhost:8080
 
 To access app in browser:
 - http://localhost:8888

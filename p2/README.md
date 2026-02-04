@@ -1,6 +1,6 @@
 # P2: K3s and three simple applications
 
-## Objective:
+## Objectives:
 Setting up:
 - Machines: 1 VM:
   - IP: 192.168.56.110
@@ -18,21 +18,25 @@ Setting up:
 - Access: Requests to 192.168.56.110 with proper hostnames reach the correct app, or App3 by default
 
 ## Understanding Kubernetes Resources
+
 ### 3 main Kubernetes resources created:
-1. #### Deployment
+1. #### Deployment (in app.yaml)
 A *Deployment* is a Kubernetes object that manages a set of identical Pods.It ensures that a specified number of replicas of your app are always running.
-Think of it as a **recipe** that tells K3s: 
+It as a **recipe** that tells K3s: 
 - Which container image to run (e.g., nginxdemos/hello)
 - How many copies (**replicas**) to run.
 It manages the pods (running containers).
 It will be set up through files.yaml.
+Here, each app is in a pod running nginx. 
 
-2. #### Service
+2. #### Service (in app.yaml)
 
 A *Service* is a Kubernetes object complementing *Deployments* that **exposes one or more Pods** so they can be accessed inside or outside the cluster.
 - Enables internal communication between Pods (ClusterIP).
 - Exposes apps outside the cluster if needed (NodePort, LoadBalancer).
 - Pods are ephemeral: they can die or be replaced with new ones with different IPs.The Service acts as a stable **internal network endpoint** for our deployment. Deployments can restart/change, but the Service IP stays the same.
+
+Here, we expose the port 80 in each pod/app (type: ClusterIP -> it is actually an internal virtual IP inside the cluster), because Ingress will only listen on port 80 (and 443 for https) and then will decide to which service route the request (according to its config files).
 
 3. #### Ingress
 An Ingress is a Kubernetes object that manages external access to Services, usually via HTTP/HTTPS. Unlike a Service, which exposes Pods at a fixed IP/port, Ingress lets you route traffic based on URL paths or hostnames.
@@ -75,7 +79,8 @@ The **selector mechanism** is crucial: when someone accesses the Service (via Cl
 NB: If the Pod is deleted and a new one is created by the Deployment, it inherits the same label, so the Service automatically routes traffic to the new Pod.
 
 ## To run:
-`vagrant up` (destroy pre-existing non necessary vagrant machines with vagrand destroy <ID>)
+(Optional) `vagrant destroy -f && rm -rf .vagrant`
+`vagrant up`
 `vagrant ssh`
 `ls /vagrant/apps` (on server VM) to see the files.yaml copied in the VM
 Checking K3s resources are running:
